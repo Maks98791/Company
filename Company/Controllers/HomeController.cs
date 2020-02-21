@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Company.Models;
+using Company.ViewModels;
 
 namespace Company.Controllers
 {
@@ -17,15 +18,21 @@ namespace Company.Controllers
             _employeeRepository = employeeRespository;
         }
 
-        public string Index()
+        public ViewResult Index()
         {
-            return _employeeRepository.GetEmployee(1).Name;
+            var model = _employeeRepository.GetAllEmployees();
+            return View(model);
         }
 
         public ViewResult Details()
         {
-            Employee employee = _employeeRepository.GetEmployee(1);
-            return View(employee);
+            HomeDetailsViewModel homeDetailsViewModel = new HomeDetailsViewModel()
+            {
+                Employee = _employeeRepository.GetEmployee(1),
+                PageTitle = "Employee Details"
+            };
+
+            return View(homeDetailsViewModel);
         }
 
         public IActionResult Privacy()

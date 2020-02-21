@@ -1,8 +1,24 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<Employee>
+
+@{
+    ViewData["Title"] = "Index";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <div class="card-deck">
+        @foreach (var employee in Model)
+        {
+        <div class="card">
+            <div class="card-header">
+                <h3>@employee.Name @employee.Surname</h3>
+            </div>
+
+            <img class="card-img-top" src="~/images/emptyimage.png" />
+
+            <div class="card-footer text-center">
+                <a asp-controller="home" asp-action="details" class="btn btn-primary">View</a>
+                <a asp-controller="home" asp-action="edit" class="btn btn-primary">Edit</a>
+                <a asp-controller="home" asp-action="delete" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+        }
+    </div>

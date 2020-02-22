@@ -42,10 +42,15 @@ namespace Company.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(Employee employee)
+        public IActionResult Create(Employee employee)
         {
-            Employee newEmployee = _employeeRepository.AddEmployee(employee);
-            return RedirectToAction("details", new { id = newEmployee.Id });
+            if (ModelState.IsValid)
+            {
+                Employee newEmployee = _employeeRepository.Add(employee);
+                return RedirectToAction("details", new { id = newEmployee.Id });
+            }
+
+            return View();
         }
 
         public IActionResult Privacy()

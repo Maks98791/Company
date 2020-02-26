@@ -29,9 +29,9 @@ namespace Company
             services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("EmployeeDbConnection")));
             services.AddControllersWithViews();
             // Uncomment if want to use sql database
-            //services.Add Scoped<IEmployeeRepository, SQLEmployeeRepository>();
+            services.AddScoped<IEmployeeRepository, SQLEmployeeRepository>();
             // Uncomment if want to use Mock database
-            services.AddSingleton<IEmployeeRepository, MockEmployeeRepository>();
+            //services.AddSingleton<IEmployeeRepository, MockEmployeeRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

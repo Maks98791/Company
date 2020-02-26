@@ -7,12 +7,14 @@
     <div class="card-deck">
         @foreach (var employee in Model)
         {
-        <div class="card">
+            var imagePath = "~/images/" + (employee.PhotoPath ?? "emptyimage.png");
+
+        <div class="card m-3" style="min-width: 18rem; max-width: 30.5%">
             <div class="card-header">
                 <h3>@employee.Name @employee.Surname</h3>
             </div>
 
-            <img class="card-img-top" src="~/images/emptyimage.png" />
+            <img class="card-img-top imgThumbnail" src=@imagePath asp-append-version="true"/>
 
             <div class="card-footer text-center">
                 <a asp-controller="home" asp-action="details" asp-route-id="@employee.Id" class="btn btn-primary m-1">View</a>

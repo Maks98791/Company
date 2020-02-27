@@ -76,6 +76,29 @@ namespace Company.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ViewResult Update(int id)
+        {
+            return View(new Employee { Id = id });
+        }
+
+        [HttpPost]
+        public ActionResult Update(Employee employee)
+        {
+            if(ModelState.IsValid)
+            {
+                _employeeRepository.Update(employee);
+                return RedirectToAction("details", new { id = employee.Id });
+            }
+
+            return View();
+        }
+
+        public ViewResult List()
+        {
+            return View("index", _employeeRepository.GetAllEmployees());
+        }
+
         public IActionResult Privacy()
         {
             return View();

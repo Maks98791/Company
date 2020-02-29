@@ -7,6 +7,7 @@ using Company.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,9 +28,14 @@ namespace Company
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("EmployeeDbConnection")));
+
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+
             services.AddControllersWithViews();
+
             // Uncomment if want to use sql database
             services.AddScoped<IEmployeeRepository, SQLEmployeeRepository>();
+
             // Uncomment if want to use Mock database
             //services.AddSingleton<IEmployeeRepository, MockEmployeeRepository>();
         }
@@ -42,9 +48,8 @@ namespace Company
                 app.UseDeveloperExceptionPage();
             }
             else
-            {
+            {   
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
@@ -52,6 +57,7 @@ namespace Company
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -13,7 +13,7 @@
     <div class="container">
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark mb-3">
             <a class="navbar-brand" asp-controller="home" asp-action="index">
-                <img src="~/images/logo.png" height="35" width="35"/>
+                <img src="~/images/logo.png" height="35" width="35" />
             </a>
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="collapseBtn">
                 <span class="navbar-toggler-icon"></span>
@@ -58,6 +58,8 @@
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validate/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)

@@ -9,9 +9,11 @@ using Company.Models;
 using Company.ViewModels;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Company.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly IEmployeeRepository _employeeRepository;
@@ -23,12 +25,14 @@ namespace Company.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
 
+        [AllowAnonymous]
         public ViewResult Index()
         {
             var model = _employeeRepository.GetAllEmployees();
             return View(model);
         }
 
+        [AllowAnonymous]
         public ViewResult Details(int? id)
         {
             Employee employee = _employeeRepository.GetEmployee(id.Value);
@@ -102,11 +106,13 @@ namespace Company.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         public ViewResult List()
         {
             return View("index", _employeeRepository.GetAllEmployees());
         }
 
+        [AllowAnonymous]
         public IActionResult Privacy()
         {
             return View();

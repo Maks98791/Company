@@ -82,7 +82,7 @@ namespace Company.Controllers
                 };
 
                 _employeeRepository.Add(newEmployee);
-                return RedirectToAction("details", new { id = newEmployee.Id });
+                return RedirectToAction("Details", new { id = newEmployee.Id });
             }
 
             return View();
@@ -100,7 +100,7 @@ namespace Company.Controllers
             if(ModelState.IsValid)
             {
                 _employeeRepository.Update(employee);
-                return RedirectToAction("details", new { id = employee.Id });
+                return RedirectToAction("Details", new { id = employee.Id });
             }
 
             return View();
@@ -110,6 +110,12 @@ namespace Company.Controllers
         public ViewResult List()
         {
             return View("index", _employeeRepository.GetAllEmployees());
+        }
+
+        public IActionResult Delete(int id)
+        {
+            _employeeRepository.Delete(id);
+            return RedirectToAction("List", "Home");
         }
 
         [AllowAnonymous]

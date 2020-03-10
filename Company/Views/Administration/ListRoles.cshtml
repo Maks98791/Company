@@ -12,7 +12,7 @@
 
     foreach(var role in Model)
     {
-        <div class="card">
+        <div class="card mb-3">
             <div class="card-header">
                 Role Id : @role.Id
             </div>
@@ -20,15 +20,17 @@
                 <h5 class="card-title">@role.Name</h5>
             </div>
             <div class="card-footer">
-                <a asp-controller="Administration" asp-action="EditRole" asp-route-id="@role.Id" class="btn btn-primary">Edit</a>
-                <a asp-controller="Administration" asp-action="DeleteRole" asp-route-id="@role.Id" class="btn btn-danger">Delete</a>
+                <form asp-action="DeleteRole", asp-controller="Administration" asp-route-id="@role.Id" method="post">
+                    <a asp-controller="Administration" asp-action="EditRole" asp-route-id="@role.Id" class="btn btn-primary">Edit</a>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
             </div>
         </div>
     }
 }
 else
 {
-    <div class="card">
+    <div class="card mb-3">
         <div class="card-header">
             <h3>No roles created yet</h3>
         </div>

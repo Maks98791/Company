@@ -29,10 +29,15 @@
                     <li class="nav-item">
                         <a asp-controller="Home" asp-action="Privacy" class="nav-link">About</a>
                     </li>
-                    @if(signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                    @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                     {
-                        <li class="nav-item">
-                            <a asp-controller="Administration" asp-action="ListRoles" class="nav-link">Manage roles</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" id="navbardropdown" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false">Manage</a>
+                            <div class="dropdown-menu" aria-labelledby="navbardropdown">
+                                <a asp-controller="Administration" asp-action="ListRoles" class="dropdown-item">Roles</a>
+                                <a asp-controller="Administration" asp-action="ListUsers" class="dropdown-item">Users</a>
+                            </div>
                         </li>
                     }
                 </ul>
@@ -67,6 +72,7 @@
     <script src="~/lib/jquery-validate/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/twitter-bootstrap/js/bootstrap.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>

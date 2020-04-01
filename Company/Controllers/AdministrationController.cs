@@ -77,7 +77,7 @@ namespace Company.Controllers
                 Id = user.Id,
                 UserName = user.UserName,
                 Email = user.Email,
-                Claims = userClaims.Select(c => c.Value).ToList(),
+                Claims = userClaims.Select(c => c.Type + " : " + c.Value).ToList(),
                 Roles = userRoles.ToList()
             };
 
@@ -267,7 +267,7 @@ namespace Company.Controllers
                     ClaimType = claim.Type
                 };
 
-                if (userClaims.Any(c => c.Type == claim.Type))
+                if (userClaims.Any(c => c.Type == claim.Type && c.Value == "true"))
                 {
                     userClaim.IsSelected = true;
                 }
@@ -292,7 +292,7 @@ namespace Company.Controllers
             }
 
             result = await _userManager.AddClaimsAsync(user,
-                model.Claims.Where(c => c.IsSelected).Select(c => new Claim(c.ClaimType, c.ClaimType)));
+                model.Claims.Select(c => new Claim(c.ClaimType, c.IsSelected ? "true" : "false")));
 
             if (!result.Succeeded)
             {

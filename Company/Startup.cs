@@ -34,21 +34,27 @@ namespace Company
 
             services.AddControllersWithViews();
 
+            services.AddAuthentication().AddGoogle(options =>
+            {
+                options.ClientId = "724487750473-4a5838h7qvis0egk31ub86tkbo1d0gau.apps.googleusercontent.com";
+                options.ClientSecret = "Vdo39SzufgfOoB_buBdCO5GQ";
+            });
+
             services.ConfigureApplicationCookie(options => options.AccessDeniedPath = new PathString("/Administration/AccessDenied"));
 
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("DeleteRolePolicy", policy => policy.RequireClaim("Delete Role"));
-                options.AddPolicy("EditRolePolicy", policy => policy.RequireClaim("Edit Role"));
+                options.AddPolicy("EditRolePolicy", policy => policy.RequireClaim("Edit Role", "true"));
                 options.AddPolicy("CreateRolePolicy", policy => policy.RequireClaim("Create Role"));
                 options.AddPolicy("AdminRolePolicy", policy => policy.RequireRole("Admin"));
             });
 
             // Uncomment if want to use sql database
-            services.AddScoped<IEmployeeRepository, SQLEmployeeRepository>();
+            //services.AddScoped<IEmployeeRepository, SQLEmployeeRepository>();
 
             // Uncomment if want to use Mock database
-            //services.AddSingleton<IEmployeeRepository, MockEmployeeRepository>();
+            services.AddSingleton<IEmployeeRepository, MockEmployeeRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

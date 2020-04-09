@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Company.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -120,6 +121,50 @@ namespace Company.Controllers
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
 
             return new ChallengeResult(provider, properties);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ExternalLoginCallBack(string returnUrl = null)
+        {
+            if(returnUrl == null)
+            {
+                returnUrl = Url.Content("~/");
+            }
+
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+            var signInResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false, true);
+
+            if(signInResult.Succeeded)
+            {
+                return LocalRedirect(returnUrl);
+            }
+            else
+            {
+                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+
+                if(email != null)
+                {
+                    var user = await _userManager.FindByEmailAsync(email);
+
+                    if(user == null)
+                    {
+                        var newUser = new IdentityUser
+                        {
+                            UserName = info.Principal.FindFirstValue(ClaimTypes.Email),
+                            Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+                        };
+
+                        await _userManager.CreateAsync(user);
+
+                        await _userManager.AddLoginAsync(user, info);
+                        await _signInManager.SignInAsync(user, false);
+
+                        return LocalRedirect(returnUrl);
+                    }
+                }
+            }
+
+            return View("Error");
         }
     }
 }

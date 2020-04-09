@@ -154,17 +154,17 @@ namespace Company.Controllers
                             Email = info.Principal.FindFirstValue(ClaimTypes.Email)
                         };
 
-                        await _userManager.CreateAsync(user);
+                        await _userManager.CreateAsync(newUser);
 
-                        await _userManager.AddLoginAsync(user, info);
-                        await _signInManager.SignInAsync(user, false);
+                        await _userManager.AddLoginAsync(newUser, info);
+                        await _signInManager.SignInAsync(newUser, false);
 
                         return LocalRedirect(returnUrl);
                     }
                 }
             }
 
-            return View("Error");
+            return RedirectToAction("Login");
         }
     }
 }

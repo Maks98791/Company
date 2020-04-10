@@ -34,11 +34,17 @@ namespace Company
 
             services.AddControllersWithViews();
 
-            services.AddAuthentication().AddGoogle(options =>
-            {
-                options.ClientId = "724487750473-4a5838h7qvis0egk31ub86tkbo1d0gau.apps.googleusercontent.com";
-                options.ClientSecret = "Vdo39SzufgfOoB_buBdCO5GQ";
-            });
+            services.AddAuthentication()
+                .AddGoogle(options =>
+                {
+                    options.ClientId = "724487750473-4a5838h7qvis0egk31ub86tkbo1d0gau.apps.googleusercontent.com";
+                    options.ClientSecret = "Vdo39SzufgfOoB_buBdCO5GQ";
+                })
+                .AddFacebook(options =>
+                {
+                    options.AppId = "512712952725054";
+                    options.AppSecret = "da1ec7df2834cc8fcdb1c11c0f7e189e";
+                });
 
             services.ConfigureApplicationCookie(options => options.AccessDeniedPath = new PathString("/Administration/AccessDenied"));
 

@@ -1,5 +1,5 @@
 # Company-WebApp
-Full stack web application for company employees management.
+Full stack web application for company employees management using ASP.NET Core and Razor views.
 
 ## Technologies
 Project is created with:
